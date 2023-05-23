@@ -31,6 +31,7 @@ ssh_send(Ip,Port,User,Password,Msg,TimeOut)->
 	Reason ->
 	    Reply={error,[Reason,?MODULE,?FUNCTION_NAME,?LINE]}
     end,
+    ssh:stop(),
     timer:sleep(?DELAY),
     Reply.
 
