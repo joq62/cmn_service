@@ -58,21 +58,21 @@ send(ConRef,ChanId,Msg,TimeOut)->
 %    R=rec(<<"na">>),
  %   Reply=case rec(ConRef,ChanId,TimeOut,no_msg,false) of
     Reply=case rec(ConRef,ChanId,TimeOut) of
-	      {closed,_R}->
+	      {closed,R}->
 		  %io:format("~p~n",[{?MODULE,?LINE,closed,R}])
-		  ok;
-	      {eof,_R}->
+		  {closed,R};
+	      {eof,R}->
 		%io:format("~p~n",[{?MODULE,?LINE,eof,R}]);
-		  ok;
-	      {exit,_R}->
+		  {eof,R};
+	      {exit,R}->
 		 % io:format("~p~n",[{?MODULE,?LINE,exit,R}]);
-		  ok;
-	      {error,_Err}->
+		  {exit,R};
+	      {error,Err}->
 		  %io:format("~p~n",[{?MODULE,?LINE,error,Err}]);
-		  ok;
+		  {error,Err};
 	      no_msg->
 		 % io:format("~p~n",[{?MODULE,?LINE,no_msg}]);
-		  ok;
+		  {no_msg,[]};
 	      {ok,Result}->
 		  X1=binary_to_list(Result),
 		  string:tokens(X1,"\n");
